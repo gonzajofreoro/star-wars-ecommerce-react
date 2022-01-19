@@ -1,20 +1,66 @@
 import { Link } from "react-router-dom";
 import "../styles.css"
-const Cart = () => {
+import { useContext, useState } from "react";
+import { context } from "./CartContext";
+//import {addDoc, collection} from "firebase/firestore"
+import validator from "validator"
+//import { toast } from "react-toastify"
 
+const Cart = () => {
+    const {fleet, deleteShip, clearFleet, count} = useContext(context)
+
+    const [loading, setLoading] = useState(false)
+    const [id, setId] = useState("")
+    const [nombre, setNombre] = useState("")
+    const [error, setError] = useState("")
+
+    const guardado = async ()=> {
+        const valido = validator.isAlpha(nombre)
+
+        if(valido){
+            setLoading(true)
+            const compra ={
+                compra: fleet,
+                usuario: {
+                    nombre,
+                    email: "email@email.com",
+                    telefono: "135792468"
+                },
+                total: 100
+            }}}
+
+/*          const ordenCollection = collection(store, "compra")
+
+            const reff = await addDoc(ordenCollection, compra)
+            const id = reff.id
+
+            setLoading(false)
+            setId(id)
+            clearFleet()
+            setNombre("")
+            setError("")
+            toast.success("Compra exitosa")
+        }else{
+            const alert = "Nombre erroneo"
+            setError(alert)
+            toast.error(alert)
+        }
+    }
+*/
     return (
         <>   
             <Link to="/"><button className="boton"><b>Volver al inicio</b></button></Link>
             <h2>Aqui esta tu flota:</h2>
                 <div className="back">
                     <ul>
-                    {Cart.map((element) =>(
+                    {fleet.map((element) =>(
                         <li>
-                            <h2>{element.nave.name}</h2>
-                            <h3>{element.nave.model}</h3>
-                            <img src={element.nave.img_url} alt={element.nave.name} className="ItemImg"/>
-                            <button >Borrar elemento</button>
-                            <button  >Reset</button>
+                            <h2>{element.name}</h2>
+                            <h3>{element.model}</h3>
+                            <img src={element.img_url} alt={element.name} className="ItemImg"/>
+                            <h3>cantidad de naves : {count}</h3>
+                            <button onClick={()=>{deleteShip(element.name)}}>Borrar nave</button>
+                            <button onClick={()=>{clearFleet(fleet)}}>Borrar todo</button>
                         </li>
                     ))} 
                 </ul>
@@ -22,5 +68,4 @@ const Cart = () => {
         </>
     )
 }
-
-export default Cart ; 
+export default Cart

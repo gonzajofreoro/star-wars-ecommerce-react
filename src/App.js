@@ -1,19 +1,22 @@
 import Header from "./components/Header"
 import Main from "./components/Main"
-import { BrowserRouter} from "react-router-dom"
 import Footer from "./components/Footer"
+import CartContext from "./components/CartContext"
+import { BrowserRouter} from "react-router-dom"
 
 
 const App = () => {
 
     return (
         <>
-            <BrowserRouter>
-                    <Header/>
-                    <Main/>
-            </BrowserRouter>
-            <Footer/>
-        </>
+        <BrowserRouter>
+            <CartContext>
+                <Header/>
+                <Main/>
+            </CartContext>    
+        </BrowserRouter>
+        <Footer/>
+    </>
     )
 }
 
